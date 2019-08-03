@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+    <script src="js/md5.min.js"></script>
+    <title>Demo</title>
+</head>
+<body>
+    手机号:<input type="text" id="mobile" required>
+    <br>
+    密码:<input type="password" id="password" required>
+    <br>
+    <button value="登陆" id="submit">登陆</button>
+</body>
+<script>
+    $("#submit").click(function(){
+        var mobile=$("#mobile").val();
+        var password=$("#password").val();
+        if(!mobile||!password)
+        {
+            alert("手机号或密码不能为空");
+            return;
+        }
+        //进行加密
+        var salt="a1b2c3d4";
+        var complexPass=""+salt.charAt(0)+salt.charAt(1)+salt.charAt(2)+password+salt.charAt(3)+salt.charAt(4)+salt.charAt(5);
+        var formPass=md5(complexPass);
+        $.ajax({
+            url:"http://localhost/Seckill/dologin",
+            type:"POST",
+            data:{
+                mobile:mobile,
+                password:formPass
+            },
+            success:function(res){
+                if(res.code==0)
+                {
+                    window.location.href="http://localhost/Seckill/goods/list"
+                }
+            }
+        });
+    });
+    
+</script>
+</html>

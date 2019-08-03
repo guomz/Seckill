@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+    <title>商品详情</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <td>商品名称</td>
+            <td>商品描述</td>
+            <td>商品价格</td>
+            <td>秒杀价格</td>
+            <td>秒杀库存</td>
+        </tr>
+        <tr>
+            <td th:text="${product.id}" hidden id="productId"></td>
+            <td th:text="${user.id}" hidden id="userId"></td>
+            <td th:text="${product.productName}"></td>
+            <td th:text="${product.productDetail}"></td>
+            <td th:text="${product.productPrice}"></td>
+            <td th:text="${product.seckillPrice}"></td>
+            <td th:text="${product.stockCount}"></td>
+            <!-- <td><a th:href="'/Seckill/goods/doseckill?id='+${product.id}">秒杀</a></td> -->
+            <td><button id="seckillBtn">秒杀</button></td>
+        </tr>
+    </table>
+</body>
+<script>
+    //轮询方法
+    function checkSeckillResult(userId, productId)
+    {
+        // var productId = $("#productId").text();
+        // var userId = $("#userId").text();
+        $.ajax({
+            url: "/Seckill/goods/checkseckillresult",
+            data:{
+                userId: userId,
+                productId: productId
+            },
+            type: "GET",
+            success: (res)=>{
+                if(res.code == 0)
+                {
+                    if(res.data == 0)
+                    {
+                        setTimeout(checkSeckillResult, 500);
+                    }
+                    else
+                    {
+                        alert("秒杀成功")
+                        window.location.href = "/Seckill/goods/orderdetail?orderId=" + res.data;
+                    }
+                }
+                else
+                {
+                    alert(res.msg);
+                }
+            }
+        })
+    }
+    $("#seckillBtn").click(function(){
+        var productId = $("#productId").text();
+        var userId = $("#userId").text();
+        console.log(productId + ' ' + userId);
+       $.ajax({
+            url:"/Seckill/goods/doseckill",
+            data:{
+                userId : userId,
+                id : productId
+            },
+            type:"GET",
+            success:(res)=>{
+               // console.log(res)
+               //通过code判断排队或失败
+                if(res.code == 0)
+                {
+                    alert(res.data);
+                    checkSeckillResult(userId, productId);
+                }
+                else
+                {
+                    alert(res.data);
+                }
+            }
+       });
+    });
+</script>
+</html>

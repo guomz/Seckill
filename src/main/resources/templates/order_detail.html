@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+    <script src="../js/common.js"></script>
+    <title>订单页</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <td>下单人昵称</td>
+            <td>商品名称</td>
+            <td>购买数量</td>
+            <td>购买价格</td>
+            <td>创建时间</td>
+        </tr>
+        <tr>
+            <td th:text="${user.nickname}"></td>
+            <td th:text="${order.productName}"></td>
+            <td th:text="${order.productCount}"></td>
+            <td th:text="${order.productPrice}"></td>
+            <td th:text="${order.createDate}"></td>
+        </tr>
+        
+    </table>
+</body>
+</html>

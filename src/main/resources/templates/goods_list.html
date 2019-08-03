@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+    <title>商品列表</title>
+</head>
+<body>
+    good list
+    <br>
+    <div th:text="${user.nickname}"></div>
+    <table border="1" id="list">
+        <tr>
+            <td>商品名称</td>
+            <td>原价</td>
+            <td>秒杀价</td>
+            <td>秒杀库存</td>
+            <td>详情</td>
+        </tr>
+        <tr th:each="product,productStatus : ${productList}">
+            <td th:text="${product.productName}"></td>
+            <td th:text="${product.productPrice}"></td>
+            <td th:text="${product.seckillPrice}"></td>
+            <td th:text="${product.stockCount}"></td>
+            <td th:text="${product.productDetail}"></td>
+            <td><a th:href="'/Seckill/goods/detail?id='+${product.id}">商品详情</a></td>
+        </tr>
+    </table>
+</body>
+
+</html>

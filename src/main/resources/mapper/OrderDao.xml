@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.guomz.Seckill.dao.OrderDao">
+
+	<select id="querySeckillOrderByUserAndProduct" resultType="SeckillOrder" parameterType="Long">
+		select *
+		from seckill_order
+		where user_id=#{userId}
+		and product_id=#{productId}
+	</select>
+	
+	<select id="queryOrderById" parameterType="Long" resultType="Order">
+		select *
+		from order_info
+		where id=#{0}
+	</select>
+	
+	<insert id="insertOrder" parameterType="Order" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		insert into order_info
+		(user_id,product_id,delivery_addr_id,product_name,product_count,product_price,order_channel,status,create_date,pay_date)
+		values
+		(#{userId},#{productId},#{deliveryAddrId},#{productName},#{productCount},#{productPrice},#{orderChannel},#{status},#{createDate},#{payDate})
+	</insert>
+	
+	<insert id="insertSeckillOrder" parameterType="SeckillOrder" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		insert into seckill_order
+		(user_id,product_id,order_id)
+		values
+		(#{userId},#{productId},#{orderId})
+	</insert>
+	
+</mapper>

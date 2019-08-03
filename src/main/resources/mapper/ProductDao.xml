@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.guomz.Seckill.dao.ProductDao">
+
+	<select id="queryAllProductDto" resultType="com.guomz.Seckill.dto.ProductDto">
+		select p.*,sp.stock_count,sp.seckill_price,sp.start_date,sp.end_date
+		from product p
+		left join
+		seckill_product sp
+		on p.id=sp.product_id
+	</select>
+	
+	<select id="queryProductDtoById" parameterType="Long" resultType="com.guomz.Seckill.dto.ProductDto">
+		select p.*,sp.stock_count,sp.seckill_price,sp.start_date,sp.end_date
+		from product p
+		left join
+		seckill_product sp
+		on p.id=sp.product_id
+		where p.id=#{0}
+	</select>
+	
+	<update id="reduceSeckillStockCount" parameterType="Long">
+		update seckill_product
+		set stock_count=stock_count-1
+		where
+		product_id=#{0}
+		and stock_count>0
+	</update>
+	
+	<update id="reduceStockCount" parameterType="Long">
+		update product
+		set product_stock=product_stock-1
+		where
+		id=#{0}
+		and product_stock>0
+	</update>
+	
+</mapper>
